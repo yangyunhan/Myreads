@@ -1,6 +1,7 @@
 import React from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
+import Main from './main'
 
 
 class BooksApp extends React.Component {
@@ -18,13 +19,16 @@ class BooksApp extends React.Component {
         searchResult: []
     };
 
-    componentDidMount(){
+    getAllBooks(){
         BooksAPI.getAll().then((books)=>{
-            console.log(books);
             this.setState({currentlyReading: books.filter((book)=>book.shelf==='currentlyReading')});
             this.setState({wantToRead: books.filter((book)=>book.shelf==='wantToRead')});
-            this.setState({read: books.filter((book)=>book.shelf==='read')})
+            this.setState({read: books.filter((book)=>book.shelf==='read')});
         });
+    }
+
+    componentDidMount(){
+        this.getAllBooks()
         /*BooksAPI.getAll().then((book)=>{
             this.setState({books2: book});
             let currentlyReading = [];
@@ -54,13 +58,8 @@ class BooksApp extends React.Component {
     }
 
     changeBookshelf(bookshelf,book){
-        BooksAPI.update(book, bookshelf).then(()=>{
-            BooksAPI.getAll().then((books)=>{
-                this.setState({currentlyReading: books.filter((book)=>book.shelf==='currentlyReading')});
-                this.setState({wantToRead: books.filter((book)=>book.shelf==='wantToRead')});
-                this.setState({read: books.filter((book)=>book.shelf==='read')})
-            });
-        });
+        BooksAPI.update(book, bookshelf)
+            .then(()=>{this.getAllBooks()});
         /*this.setState((state)=>{
             state.currentlyReading = [];
             state.wantToRead = [];
@@ -88,6 +87,10 @@ class BooksApp extends React.Component {
             })
         });
         BooksAPI.update(book,bookshelf).then(book=>console.log(book));*/
+    }
+
+    openSearch(){
+        this.setState({showSearchPage: true})
     }
 
     updateQuery = (query)=>{
@@ -161,105 +164,13 @@ class BooksApp extends React.Component {
                                             <div className='book-authors'>{this.state.searchResult[b].authors}</div>
                                         </div>
                                     </li>
-                                    ))
+                                ))
                                 }
                             </ol>
                         </div>
                     </div>
                 ) : (
-                    <div className="list-books">
-                        <div className="list-books-title">
-                            <h1>MyReads</h1>
-                        </div>
-                        <div className="list-books-content">
-                            <div>
-                                <div className="bookshelf">
-                                    <h2 className="bookshelf-title">Currently Reading</h2>
-                                    <div className="bookshelf-books">
-                                        <ol className="books-grid">
-                                            {this.state.currentlyReading.map((book)=>(
-                                                <li key={book.id}>
-                                                    <div className="book">
-                                                        <div className="book-top">
-                                                            <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url("${book.imageLinks.thumbnail}")` }}></div>
-                                                            <div className="book-shelf-changer">
-                                                                <select value={book.shelf} onChange={(event)=>this.changeBookshelf(event.target.value,book)}>
-                                                                    <option value="none" disabled>Move to...</option>
-                                                                    <option value="currentlyReading" defaultValue="selected">Currently Reading</option>
-                                                                    <option value="wantToRead">Want to Read</option>
-                                                                    <option value="read">Read</option>
-                                                                    <option value="none">None</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div className="book-title">{book.title}</div>
-                                                        <div className="book-authors">{book.authors[0]}</div>
-                                                    </div>
-                                                </li>
-                                            ))}
-                                        </ol>
-                                    </div>
-                                </div>
-                                <div className="bookshelf">
-                                    <h2 className="bookshelf-title">Want to Read</h2>
-                                    <div className="bookshelf-books">
-                                        <ol className="books-grid">
-                                            {this.state.wantToRead.map((book)=>(
-                                                <li key={book.id}>
-                                                    <div className="book">
-                                                        <div className="book-top">
-                                                            <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url("${book.imageLinks.thumbnail}")` }}></div>
-                                                            <div className="book-shelf-changer">
-                                                                <select value={book.shelf} onChange={(event)=>this.changeBookshelf(event.target.value,book)}>
-                                                                    <option value="none" disabled>Move to...</option>
-                                                                    <option value="currentlyReading">Currently Reading</option>
-                                                                    <option value="wantToRead" defaultValue="selected">Want to Read</option>
-                                                                    <option value="read">Read</option>
-                                                                    <option value="none">None</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div className="book-title">{book.title}</div>
-                                                        <div className="book-authors">{book.authors[0]}</div>
-                                                    </div>
-                                                </li>
-                                            )) }
-                                        </ol>
-                                    </div>
-                                </div>
-                                <div className="bookshelf">
-                                    <h2 className="bookshelf-title">Read</h2>
-                                    <div className="bookshelf-books">
-                                        <ol className="books-grid">
-                                            { this.state.read.map((book)=>(
-                                                <li key={book.id}>
-                                                    <div className="book">
-                                                        <div className="book-top">
-                                                            <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url("${book.imageLinks.thumbnail}")` }}></div>
-                                                            <div className="book-shelf-changer">
-                                                                <select value={book.shelf} onChange={(event)=>this.changeBookshelf(event.target.value,book)}>
-                                                                    <option value="none" disabled>Move to...</option>
-                                                                    <option value="currentlyReading">Currently Reading</option>
-                                                                    <option value="wantToRead">Want to Read</option>
-                                                                    <option value="read" defaultValue="selected">Read</option>
-                                                                    <option value="none">None</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div className="book-title">{book.title}</div>
-                                                        <div className="book-authors">{book.authors[0]}</div>
-                                                    </div>
-                                                </li>
-                                            ))}
-                                        </ol>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="open-search">
-                            <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
-                        </div>
-                    </div>
+                    <Main book={this.state} changeEvent={this.changeBookshelf} search={this.openSearch}/>
                 )}
             </div>
         )
