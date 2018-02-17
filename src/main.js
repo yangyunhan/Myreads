@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
+import {Link} from 'react-router-dom'
 import Book from './book'
+import PropTypes from 'prop-types'
 
 class Main extends Component{
     render(){
-        console.log('Props', this.props);
         return(
             <div className="list-books">
                 <div className="list-books-title">
@@ -32,11 +33,15 @@ class Main extends Component{
                     </div>
                 </div>
                 <div className="open-search">
-                    <a onClick={() => this.props.search()}>Add a book</a>
+                    <Link to={"/search"}>Add a book</Link>
                 </div>
             </div>
         )
     }
 }
 
+Main.propTypes = {
+    book: PropTypes.object.isRequired,
+    changeEvent: PropTypes.func.isRequired
+};
 export default Main
