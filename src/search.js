@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import Book from './book'
 import {Link} from 'react-router-dom'
 import * as BooksAPI from "./BooksAPI"
-import PropTypes from 'prop-types'
 
 class Search extends Component{
     state={
@@ -10,8 +9,9 @@ class Search extends Component{
     };
 
     updateQuery = (query)=>{
-        if(query) {
+        if(query.length>0) {
             BooksAPI.search(query).then((books) => {
+                console.log(books);
                 books.forEach((book)=>{
                     this.props.book.currentlyReading.forEach(c=>{
                         if (book.id === c.id){
@@ -55,9 +55,5 @@ class Search extends Component{
     }
 }
 
-Search.propTypes = {
-    books: PropTypes.array.isRequired,
-    changeShelf: PropTypes.func.isRequired
-};
 
 export default Search
