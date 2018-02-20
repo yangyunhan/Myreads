@@ -11,7 +11,7 @@ class Search extends Component{
     updateQuery = (query)=>{
         if(query.length>0) {
             BooksAPI.search(query).then((books) => {
-                console.log(books);
+                //console.log(books);
                 books.forEach((book)=>{
                     this.props.book.currentlyReading.forEach(c=>{
                         if (book.id === c.id){
@@ -48,7 +48,7 @@ class Search extends Component{
                     </div>
                 </div>
                 <div className="search-books-results">
-                    <Book books={this.state.result} changeShelf={this.props.changeEvent}/>
+                    <Book books={this.state.result} changeShelf={this.props.changeEvent} pro={this.props.func}/>
                 </div>
             </div>
         )
