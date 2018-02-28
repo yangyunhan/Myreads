@@ -7,11 +7,19 @@ import Search from "./search";
 
 
 class BooksApp extends React.Component {
-    state = {
+    constructor(props){
+        super(props);
+        this.state = {
+            currentlyReading: [],
+            wantToRead: [],
+            read: []
+        };
+    }
+    /*state = {
         currentlyReading:[],
         wantToRead:[],
         read:[]
-    };
+    };*/
 
     getAllBooks(){
         BooksAPI.getAll().then((books)=>{
@@ -25,9 +33,9 @@ class BooksApp extends React.Component {
         this.getAllBooks()
     }
 
-    changeBookshelf(book,bookshelf,func){
+    changeBookshelf(book,bookshelf){
         BooksAPI.update(book, bookshelf).then(()=>{
-            func();
+            this.getAllBooks();
         })
     }
 
@@ -36,19 +44,16 @@ class BooksApp extends React.Component {
             <div className="app">
                 <Route exact path='/' render={()=>(
                     <Main
-                        changeEvent={this.changeBookshelf}
-                        func={this.getAllBooks.bind(this)}
+                        changeEvent={this.changeBookshelf.bind(this)}
                         book={this.state}
                     />)}
                 />
                 <Route path='/search' render={()=>(
                     <Search
-                        changeEvent={this.changeBookshelf}
+                        changeEvent={this.changeBookshelf.bind(this)}
                         book={this.state}
-                        func={this.getAllBooks.bind(this)}
                     />)}
                 />
-
             </div>
         )
     }
