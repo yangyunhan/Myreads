@@ -7,26 +7,26 @@ class Star extends Component {
 
     updateStar = (object,value)=>{
         this.setState({rating: parseInt(value)+1});
-
-        //console.log(value);
-        //console.log(object.target.parentNode);
-
         /*不能在这里用console验证，因为console会先执行，打印出上一次rating的值*/
+        let newKey = this.props.renderId.toString();
+        localStorage.setItem(newKey, (parseInt(value)+1).toString());
+        console.log(localStorage.getItem(newKey));
     };
 
     render(){
+        //console.log(this.props.storage);
         let className = this.props.renderId;
-        //console.log(className);
+        console.log(className);
         //console.log(this.state.rating);
         HTMLCollection.prototype.toArray = function () {
             return [].slice.call(this);
         };
 
         let rate = this.state.rating;
-
+        console.log(rate);
         if(this.state.rating > 0 ){
             let renderNode = document.getElementsByClassName(className);
-            //console.log(renderNode);
+            console.log(renderNode);
             renderNode[0].children.toArray().forEach(function (item) {
                 //console.log(item);
                 let index = parseInt(item.getAttribute('data-index')) + 1;
@@ -39,7 +39,7 @@ class Star extends Component {
         }
 
         return(
-            <div onClick={(e)=>this.updateStar(e, e.target.getAttribute('data-index'))} className={className}>
+            <div className={className} onClick={(e)=>this.updateStar(e, e.target.getAttribute('data-index'))}>
                 <i data-index="0" className="star"></i>
                 <i data-index="1" className="star"></i>
                 <i data-index="2" className="star"></i>

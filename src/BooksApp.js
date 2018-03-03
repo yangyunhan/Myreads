@@ -26,11 +26,24 @@ getAllBooks(){
         this.setState({currentlyReading: books.filter((book)=>book.shelf==='currentlyReading')});
         this.setState({wantToRead: books.filter((book)=>book.shelf==='wantToRead')});
         this.setState({read: books.filter((book)=>book.shelf==='read')});
+
+        books.map((book)=>{
+            let key = book.id;
+            //console.log(localStorage);
+            //console.log(localStorage.getItem('token'));
+            //console.log(localStorage.getItem(key));
+            if(localStorage.getItem('key') === null){
+                localStorage.setItem(key,'0');
+                //console.log(localStorage);
+            }
+
+        })
     });
+
 };
 
 componentDidMount(){
-    this.getAllBooks()
+    this.getAllBooks();
 }
 
 changeBookshelf(book,bookshelf){
