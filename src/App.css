@@ -172,3 +172,23 @@ body, .app {
   text-align: center;
   font-size: 0.8em;
 }
+.star{
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+  /*background-color: yellow;*/
+}
+.star + .star{
+  margin-left: 5px;
+}
+.rate{
+  display: inline-block;
+}
+.star + span{
+  margin-left: 12px;
+}
+.starStyle{
+  background-color: yellow;
+}
