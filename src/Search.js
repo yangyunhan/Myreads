@@ -9,11 +9,13 @@ class Search extends Component{
        result: []
     };
 
+    /**
+     * description: update the query which from user's input
+     * @param query
+     */
     updateQuery = (query)=>{
         if(query.length>0) {
             BooksAPI.search(query).then((books) => {
-                //console.log(query);
-                //console.log(books);
                 books.forEach((book)=>{
 
                     if(book.imageLinks === undefined){
@@ -25,12 +27,12 @@ class Search extends Component{
                             book.shelf = c.shelf;
                         }
                     });
-                    this.props.book.wantToRead.map(w=>{
+                    this.props.book.wantToRead.forEach(w=>{
                         if (book.id === w.id){
                             book.shelf = w.shelf;
                         }
                     });
-                    this.props.book.read.map(r=>{
+                    this.props.book.read.forEach(r=>{
                         if (book.id === r.id){
                             book.shelf = r.shelf;
                         }

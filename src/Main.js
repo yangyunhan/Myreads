@@ -3,12 +3,21 @@ import {Link} from 'react-router-dom'
 import Book from './Book'
 import styled from 'styled-components'
 
+/**
+ * description: method of style-components: the style of repeat style of some elements
+ */
 const Div = styled.div`
     text-align: center;
     `;
+
+/**
+ * description: method of style-components
+ */
 const H2 = styled.h2`
     border-bottom: 1px solid #dedede;
     `;
+
+
 const Main = (props)=>{
     return (
         <div className="list-books">

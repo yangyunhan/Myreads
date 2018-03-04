@@ -1,6 +1,12 @@
 import React, {Component} from 'react'
 import Star from './Star'
 
+/**
+ * description: method of inline styling: the style of book cover
+ * @param book
+ * @returns {{width: number, height: number, backgroundImage: string}}
+ * @constructor
+ */
 const BookCoverStyle = (book) => {
     return {
         width: 128,
@@ -11,7 +17,6 @@ const BookCoverStyle = (book) => {
 
 class Book extends Component {
     render(){
-        //console.log(localStorage);
         return(
             <ol className="books-grid">
                 {this.props.books.map((book)=>(

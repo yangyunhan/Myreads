@@ -7,6 +7,10 @@ import Search from "./Search"
 
 
 class BooksApp extends React.Component {
+    /**
+     * description: the initial state of this component
+     * @param props
+     */
     constructor(props){
         super(props);
         this.state = {
@@ -21,54 +25,61 @@ class BooksApp extends React.Component {
     read:[]
 };*/
 
-getAllBooks(){
-    BooksAPI.getAll().then((books)=>{
-        this.setState({currentlyReading: books.filter((book)=>book.shelf==='currentlyReading')});
-        this.setState({wantToRead: books.filter((book)=>book.shelf==='wantToRead')});
-        this.setState({read: books.filter((book)=>book.shelf==='read')});
+    /**
+     * description: get all books' information from the third part
+     */
+    getAllBooks(){
+        BooksAPI.getAll().then((books)=>{
+            this.setState({currentlyReading: books.filter((book)=>book.shelf==='currentlyReading')});
+            this.setState({wantToRead: books.filter((book)=>book.shelf==='wantToRead')});
+            this.setState({read: books.filter((book)=>book.shelf==='read')});
 
-        books.map((book)=>{
-            let key = book.id;
-            //console.log(localStorage);
-            //console.log(localStorage.getItem('token'));
-            //console.log(localStorage.getItem(key));
-            if(localStorage.getItem('key') === null){
-                localStorage.setItem(key,'0');
-                //console.log(localStorage);
-            }
+            books.forEach((book)=>{
+                let key = book.id;
+                if(localStorage.getItem('key') === null){
+                    localStorage.setItem(key,'0');
+                }
 
-        })
-    });
+            })
+        });
+    };
 
-};
-
-componentDidMount(){
-    this.getAllBooks();
-}
-
-changeBookshelf(book,bookshelf){
-    BooksAPI.update(book, bookshelf).then(()=>{
+    /**
+     * description: run this function when the DOM build
+     */
+    componentDidMount(){
         this.getAllBooks();
-    })
+    }
+
+    /**
+     * description: update the book information when the book is moved to other shelf
+     * @param book
+     * @param bookshelf
+     */
+    changeBookshelf(book,bookshelf){
+        BooksAPI.update(book, bookshelf).then(()=>{
+            this.getAllBooks();
+        })
+    }
+
+    render(){
+        return (
+            <div className="app">
+                <Route exact path='/' render={()=>(
+                    <Main
+                        changeEvent={this.changeBookshelf.bind(this)}
+                        book={this.state}
+                    />)}
+                />
+                <Route path='/search' render={()=>(
+                    <Search
+                        changeEvent={this.changeBookshelf.bind(this)}
+                        book={this.state}
+                    />)}
+                />
+            </div>
+        )
+    }
 }
 
-render(){
-    return (
-        <div className="app">
-            <Route exact path='/' render={()=>(
-                <Main
-                    changeEvent={this.changeBookshelf.bind(this)}
-                    book={this.state}
-                />)}
-            />
-            <Route path='/search' render={()=>(
-                <Search
-                    changeEvent={this.changeBookshelf.bind(this)}
-                    book={this.state}
-                />)}
-            />
-        </div>
-    )
-}
-}
 export default BooksApp
