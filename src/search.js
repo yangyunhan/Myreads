@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
-import Book from './book'
+import Book from './Book'
 import {Link} from 'react-router-dom'
 import * as BooksAPI from "./BooksAPI"
+
 
 class Search extends Component{
     state={
@@ -11,7 +12,14 @@ class Search extends Component{
     updateQuery = (query)=>{
         if(query.length>0) {
             BooksAPI.search(query).then((books) => {
+                //console.log(query);
+                //console.log(books);
                 books.forEach((book)=>{
+
+                    if(book.imageLinks === undefined){
+                        book.imageLinks = '';
+                    }
+
                     this.props.book.currentlyReading.forEach(c=>{
                         if (book.id === c.id){
                             book.shelf = c.shelf;
@@ -29,7 +37,7 @@ class Search extends Component{
                     })
                 });
                 this.setState({result: books});
-            });
+            }).catch(()=>console.log('there is something wrong'));
         }
     };
 

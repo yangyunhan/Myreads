@@ -1,7 +1,14 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import Book from './book'
+import Book from './Book'
+import styled from 'styled-components'
 
+const Div = styled.div`
+    text-align: center;
+    `;
+const H2 = styled.h2`
+    border-bottom: 1px solid #dedede;
+    `;
 const Main = (props)=>{
     return (
         <div className="list-books">
@@ -11,22 +18,22 @@ const Main = (props)=>{
             <div className="list-books-content">
                 <div>
                     <div className="bookshelf">
-                        <h2 className="bookshelf-title">Currently Reading</h2>
-                        <div className="bookshelf-books">
+                        <H2>Currently Reading</H2>
+                        <Div>
                             <Book books={props.book.currentlyReading} changeShelf={props.changeEvent}/>
-                        </div>
+                        </Div>
                     </div>
                     <div className="bookshelf">
-                        <h2 className="bookshelf-title">Want to Read</h2>
-                        <div className="bookshelf-books">
+                        <H2>Want to Read</H2>
+                        <Div>
                             <Book books={props.book.wantToRead} changeShelf={props.changeEvent}/>
-                        </div>
+                        </Div>
                     </div>
                     <div className="bookshelf">
-                        <h2 className="bookshelf-title">Read</h2>
-                        <div className="bookshelf-books">
+                        <H2>Read</H2>
+                        <Div>
                             <Book books={props.book.read} changeShelf={props.changeEvent}/>
-                        </div>
+                        </Div>
                     </div>
                 </div>
             </div>
