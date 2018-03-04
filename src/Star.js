@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 
 class Star extends Component {
     state = {
-        rating: '0',
+        rating: this.props.storage,
     };
 
     updateStar = (object,value)=>{
